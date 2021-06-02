@@ -68,7 +68,8 @@ class Intersection():
         self.nb_in+=1 # une rue entrante de plus pour cette intersection
         if self.nb_in == 1 : self.schedule.append([street,duration]) # si c'est la première rue entrante, le feu est toujours vert
         else :
-            duree=duration//self.nb_in # sinon il sera vert le temps total divisé par le nombre de rues entrantes (à modifier)
+            #duree=duration//self.nb_in # sinon il sera vert le temps total divisé par le nombre de rues entrantes (à modifier)
+            duree=1
             for i in range(self.nb_in-1):
                 self.schedule[i][1]=duree # on modifie la durée des rues entrantes précédentes
             self.schedule.append([street,duree]) # on ajoute la nouvelle
