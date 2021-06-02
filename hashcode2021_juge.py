@@ -1,9 +1,9 @@
-juge=True
+juge=False
 
 #lecture des entrées
 if juge : tmp=input().split(' ')
 else :
-    fichier = open ("a.txt", "r")
+    fichier = open ("a_bis.txt", "r")
     ligne = fichier.readline()
     tmp=ligne.split(' ')
 
