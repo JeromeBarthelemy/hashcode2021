@@ -125,7 +125,8 @@ def Reglageintersection(id):
 
 # on modifie le schedule des carrefours en fonction du trafic       
 for id in carrefours :
-    Reglageintersection(id)
+    if not(carrefours[id].always_green) :
+        Reglageintersection(id)
 
     # on affiche toutes nos intersections dans la console
 if not(juge) :
