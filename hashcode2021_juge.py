@@ -68,7 +68,8 @@ class Intersection():
         self.nb_in+=1 # une rue entrante de plus pour cette intersection
         if self.nb_in == 1 : self.schedule.append([street,duration]) # si c'est la première rue entrante, le feu est toujours vert
         else :
-            duree=duration//self.nb_in # sinon il sera vert le temps total divisé par le nombre de rues entrantes (à modifier)
+            #duree=duration//self.nb_in # sinon il sera vert le temps total divisé par le nombre de rues entrantes (à modifier)
+            duree=1
             for i in range(self.nb_in-1):
                 self.schedule[i][1]=duree # on modifie la durée des rues entrantes précédentes
             self.schedule.append([street,duree]) # on ajoute la nouvelle
@@ -122,3 +123,19 @@ else :
         print(carrefour.nb_in)
         for feu in carrefour.schedule :
             print(feu[0]+' '+str(feu[1]))
+            
+def Reglageintersection(id):    
+    Nbintersection= carrefours[id].nb_in# nombre d'intersection dans le carrefour    
+    trafic=[] # tableau des qtés de circulation
+    cpt=0
+    for rue,traf in carrefours[id].incoming_streets.items():
+        trafic.append(traf) #on remplit le tableau avec la qté de voitures
+        cpt=cpt+traf #on compte toutes les voitures
+    #Le réglage
+    limitant=min(trafic)
+    for i in range(len(trafic)):
+        trafic[i]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
+    #change la valeur
+    for i in range(len(carrefours[id].schedule)):
+        carrefours[id].schedule[i][1]=trafic[i]
+    
