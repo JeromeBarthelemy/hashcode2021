@@ -129,13 +129,17 @@ def Reglageintersection(id):
     trafic=[] # tableau des qtés de circulation
     cpt=0
     for rue,traf in carrefours[id].incoming_streets.items():
-        trafic.append(traf) #on remplit le tableau avec la qté de voitures
-        cpt=cpt+traf #on compte toutes les voitures
+        trafic.append(traf[0]) #on remplit le tableau avec la qté de voitures
+        cpt=cpt+traf[0] #on compte toutes les voitures
     #Le réglage
     limitant=min(trafic)
-    for i in range(len(trafic)):
-        trafic[i]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
+    if limitant != 0 :
+        for i in range(len(trafic)):
+            trafic[i]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
     #change la valeur
     for i in range(len(carrefours[id].schedule)):
         carrefours[id].schedule[i][1]=trafic[i]
-    
+
+# on modifie le schedule des carrefours en fonction du trafic       
+for id in carrefours :
+    Reglageintersection(id)
