@@ -97,12 +97,34 @@ for voiture in voitures.values() : # on parcourt les voitures pour remplir le tr
             carrefours[end_inter].add_car(rue)
             carrefours[start_inter].add_car(rue)
         i+=1
+	
+
+	
 # on cherche les carrefours à sens unique        
 for carrefour in carrefours.values() :
     carrefour.sens_unique()
 # on affiche toutes nos intersections
 for carrefour in carrefours.values() :
     print(carrefour)
+
+
+# Reglage d'une intersection
+def Reglageintersection(id):    
+    Nbintersection= carrefours[id].nb_in# nombre d'intersection dans le carrefour    
+    trafic=[Nbintersection] # tableau des qtés de circulation
+    cpt=0
+    for rue,traf in carrefours[id].incoming_streets.items():
+        trafic.append(traf) #on remplit le tableau avec la qté de voitures
+        cpt=cpt+traf #on compte toutes les voitures
+    #Le réglage
+    limitant=min(trafic)
+    for i in range(len(trafic)):
+        trafic[i]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
+    #change la valeur
+    for i in range(len(carrefours[id].schedule)):
+        carrefours[id].schedule[i][1]=trafic[i]
+    
+
 
 # affichage pour le juge
 print(nb_intersections)
