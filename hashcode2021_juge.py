@@ -109,20 +109,6 @@ for voiture in voitures.values() : # on parcourt les voitures pour remplir le tr
 # on cherche les carrefours à sens unique        
 for carrefour in carrefours.values() :
     carrefour.sens_unique()
-
-# on affiche toutes nos intersections dans la console
-if not(juge) :
-    for carrefour in carrefours.values() :
-        print(carrefour)
-
-# on affiche toutes nos intersections pour le juge
-else :
-    print(nb_intersections)
-    for carrefour in carrefours.values() :
-        print(carrefour.id)
-        print(carrefour.nb_in)
-        for feu in carrefour.schedule :
-            print(feu[0]+' '+str(feu[1]))
             
 def Reglageintersection(id):    
     Nbintersection= carrefours[id].nb_in# nombre d'intersection dans le carrefour    
@@ -143,3 +129,16 @@ def Reglageintersection(id):
 # on modifie le schedule des carrefours en fonction du trafic       
 for id in carrefours :
     Reglageintersection(id)
+
+    # on affiche toutes nos intersections dans la console
+if not(juge) :
+    for carrefour in carrefours.values() :
+        print(carrefour)
+# on affiche toutes nos intersections pour le juge
+else :
+    print(nb_intersections)
+    for carrefour in carrefours.values() :
+        print(carrefour.id)
+        print(carrefour.nb_in)
+        for feu in carrefour.schedule :
+            print(feu[0]+' '+str(feu[1]))
