@@ -125,7 +125,7 @@ else :
             
 def Reglageintersection(id):    
     Nbintersection= carrefours[id].nb_in# nombre d'intersection dans le carrefour    
-    trafic=[Nbintersection] # tableau des qtés de circulation
+    trafic=[] # tableau des qtés de circulation
     cpt=0
     for rue,traf in carrefours[id].incoming_streets.items():
         trafic.append(traf) #on remplit le tableau avec la qté de voitures
