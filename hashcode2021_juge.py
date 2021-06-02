@@ -1,9 +1,9 @@
-juge=True
+juge=False
 
 #lecture des entrées
 if juge : tmp=input().split(' ')
 else :
-    fichier = open ("a.txt", "r")
+    fichier = open ("e.txt", "r")
     ligne = fichier.readline()
     tmp=ligne.split(' ')
 
@@ -24,7 +24,7 @@ for i in range(nb_streets):
     name=temp[2]
     length=int(temp[3])
     rues[name]=[start,end,length]
-if not(juge) : print(rues)
+#if not(juge) : print(rues)
 
 # dictionnaire des voitures de la forme {id :[longueur trajet, [rue1, rue2, ...]]}
 voitures={}
@@ -36,7 +36,7 @@ for i in range(nb_cars):
     for j in range(path_length):
         path.append(temp[1+j])
     voitures[i]=[path_length,path]
-if not(juge) : print(voitures)
+#if not(juge) : print(voitures)
 
 # Classe pour les carrefours
 class Intersection():
@@ -79,7 +79,7 @@ class Intersection():
         self.nb_out+=1 # une rue sortante de plus pour cette intersection
 
     def sens_unique(self): # pour tester à la fin l'intersection est à sens unique (pas vraiment une intersection du coup)
-        if self.nb_in == 1 and self.nb_out == 1 : self.always_green=True
+        if self.nb_in == 1 : self.always_green=True
 
     def add_car(self,street,initial): # pour ajouter du trafic à cette intersection
         if street in self.incoming_streets : # si c'est une rue entrante
@@ -128,10 +128,11 @@ for id in carrefours :
     if not(carrefours[id].always_green) :
         Reglageintersection(id)
 
-    # on affiche toutes nos intersections dans la console
+# on affiche toutes nos intersections dans la console
 if not(juge) :
     for carrefour in carrefours.values() :
-        print(carrefour)
+        print('Carrefour n°', carrefour.id,' Nb rues entrantes : ',carrefour.nb_in,' Nb rues sortantes : ', carrefour.nb_out)
+        #print(carrefour)
 # on affiche toutes nos intersections pour le juge
 else :
     print(nb_intersections)
