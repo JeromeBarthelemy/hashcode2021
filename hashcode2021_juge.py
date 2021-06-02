@@ -1,9 +1,9 @@
-juge=False
+juge=True
 
 #lecture des entrées
 if juge : tmp=input().split(' ')
 else :
-    fichier = open ("a_bis.txt", "r")
+    fichier = open ("a.txt", "r")
     ligne = fichier.readline()
     tmp=ligne.split(' ')
 
@@ -120,11 +120,8 @@ def Reglageintersection(id):
     #Le réglage
     limitant=min(trafic)
     if limitant != 0 :
-        for i in range(len(trafic)):
-            trafic[i]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
-    #change la valeur
-    for i in range(len(carrefours[id].schedule)):
-        carrefours[id].schedule[i][1]=trafic[i]
+        for i in range(Nbintersection):
+            carrefours[id].schedule[i][1]=trafic[i]//limitant #on ramène à 1 s le plus petit feu
 
 # on modifie le schedule des carrefours en fonction du trafic       
 for id in carrefours :
