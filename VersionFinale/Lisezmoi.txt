@@ -40,3 +40,4 @@ Nous avons eu à travailler sur la gestion des traverser des intersections  des 
 
 Avec plus de temps nous aurions aimé utiliser la fonction score comme fonction objectif et l’utiliser pour optimiser les réglages de feux.
  
+
