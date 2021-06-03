@@ -29,7 +29,12 @@ class Car():
             feux[self.street_curr].queue_length -= 1
             self.etape+=1
             self.street_curr = self.path[self.etape]
-            self.dist_feu = rues[self.street_curr][2]
+            self.dist_feu = rues[self.street_curr][2]-1
+            if self.dist_feu == 0 :
+                self.queue = True
+                self.queue_pos = feux[self.street_curr].queue_length + 1
+                feux[self.street_curr].queue_length += 1
+                feux[self.street_curr].queue.append(self)
             self.queue=False
             self.queue_pos = 0
             if self.etape == self.path_length-1 :
@@ -41,12 +46,12 @@ class Car():
             return 'Avance dans la queue'
 
 class Feu():
-    def __init__(self, street_name,duree,carrefour_id,green):
+    def __init__(self, street_name,duree_green,carrefour_id,green):
         self.id = street_name
         self.queue = []
         self.queue_length = 0
         self.green = green
-        self.duree = duree
+        self.duree_green = duree_green
         self.temps = 0
         self.carrefour_id=carrefour_id
 
@@ -57,11 +62,16 @@ class Feu():
         return texte
 
     def iteration_temps(self):
-        if self.duree != 0 :
+        if self.duree_green != 0 :
             self.temps += 1
-            if self.temps == self.duree :
-                self.green=not(self.green)
-                self.temps = 0
+            if self.green :
+                if self.temps == self.duree_green :
+                    self.green=not(self.green)
+                    self.temps = 0
+            else :
+                if self.temps == self.duree_red :
+                    self.green=not(self.green)
+                    self.temps = 0
 
 def score(rues,voitures,carrefours,duration,bonus,juge):
     """
@@ -87,12 +97,17 @@ def score(rues,voitures,carrefours,duration,bonus,juge):
         schedule = carrefour.schedule
         if len(schedule) != 0 : # on modifie ceux qui sont schedulés
             i=0
+            duree_red=0
             for ligne in schedule :
+                duree_red += ligne[1]
                 if i == 0 : green = True
                 else : green = False
-                feux[ligne[0]].green=green
-                feux[ligne[0]].duree=ligne[1]
+                feux[ligne[0]].green = green
+                feux[ligne[0]].duree_green = ligne[1]
                 i += 1
+            for ligne in schedule :
+                feux[ligne[0]].duree_red = duree_red - feux[ligne[0]]
+
 
     cars=[]
     i=0

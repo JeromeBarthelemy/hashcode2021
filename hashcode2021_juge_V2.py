@@ -170,7 +170,7 @@ if not(juge) :
     for carrefour in carrefours.values() :
         if len(carrefour.schedule) != 0 :
             print('Carrefour n°', carrefour.id,' Nb rues entrantes : ',carrefour.nb_in,' Nb rues sortantes : ', carrefour.nb_out, ' Nb de rues de ce carrefour occupées au départ : ', len(carrefour.priority))
-            print(carrefour)
+            # print(carrefour)
     print(score(rues,voitures,carrefours,duration,bonus,juge))
 # on affiche toutes nos intersections pour le juge
 else :
