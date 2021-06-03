@@ -137,26 +137,30 @@ def score(rues,voitures,carrefours,duration,bonus,juge):
     for voiture in voitures :
         cars.append(Car(i,voiture[1],voiture[0],feux))
         i += 1
-    if not(juge):
+    """if not(juge):
         print("Feux :")
         for feu in feux.values() : print(feu)
         print("Voitures :")
-        for car in cars : print(car)
-
+        for car in cars : print(car)"""
+    nb_bloques = 0
+    nb_queues = 0
     for t in range(duration) : # t est le temps
-        if not(juge):
+        """if not(juge):
             print ('Itération n°',t)
             print("Etat des voitures : ")
             for car in cars :
                 print(car)
             print("Etat des feux : ")
             for feu in feux.values() :
-                print(feu)
+                print(feu)"""
         for car in cars :
             result=car.avance(feux,rues,cars)
-            print('Action de la voiture '+str(car.id)+' : ', result)
+            # print('Action de la voiture '+str(car.id)+' : ', result)
             if result == 'Traverse et arrivée' or result == 'Avance et arrivée' :
                 score += bonus + (duration - (t+1))
+            if result == 'Bloquée au feu' : nb_bloques += 1
+            if result == 'Avance dans la queue' : nb_queues += 1
         for feu in feux.values() :
             feu.iteration_temps()
+    if not(juge) : print ('Nb de feux rouges bloquants : ', nb_bloques, ' Nb de secondes passées dans la queue : ', nb_queues)
     return score

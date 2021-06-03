@@ -6,7 +6,7 @@ juge=False # mettre à True pour utilisation avec le juge et à False sinon
 #lecture des entrées
 if juge : tmp=input().split(' ')
 else :
-    fichier = open ("a.txt", "r")
+    fichier = open ("c.txt", "r")
     ligne = fichier.readline()
     tmp=ligne.split(' ')
 
@@ -161,16 +161,16 @@ def Reglageintersection(id):
 # on modifie le schedule des carrefours en fonction du trafic       
 for carrefour in carrefours.values() :
     if not(carrefour.always_green) :
-        #Reglageintersection(carrefour.id) # pas utilisé car dégrade le score
+        Reglageintersection(carrefour.id) # pas utilisé car dégrade le score
         carrefour.order()
 
 
 # on affiche toutes nos intersections dans la console
 if not(juge) :
-    for carrefour in carrefours.values() :
+    """for carrefour in carrefours.values() :
         if len(carrefour.schedule) != 0 :
             print('Carrefour n°', carrefour.id,' Nb rues entrantes : ',carrefour.nb_in,' Nb rues sortantes : ', carrefour.nb_out, ' Nb de rues de ce carrefour occupées au départ : ', len(carrefour.priority))
-            # print(carrefour)
+            # print(carrefour)"""
     print(score(rues,voitures,carrefours,duration,bonus,juge))
 # on affiche toutes nos intersections pour le juge
 else :
