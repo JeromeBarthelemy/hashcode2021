@@ -11,6 +11,8 @@ Jérôme Barthelemy
 Alain Grava
 Laurent Mongiat
 
+Remarque : Le booléen juge permet de choisir la version utilisée: True pour la version en ligne, False pour le tester en local avec des affichages de debug
+
 Nous avons commencé par coder le problème en faisant le choix de l'orienté objet. et nous avons créé une classe intersection.
 Le programme a généré une sortie pour le réglage des feux donnant un premier résultat correct.
 Par défaut nous avons mis les feux à 1 s chacun
@@ -32,8 +34,9 @@ Nous avons essayé de travailler sur les paramètres initiaux
 Le juge nous donnait un score honorable qui nous plaçait dans les premiers.
 Les modifications afin d'améliorer le score sont restées marginales
 
-Afin de mieux comprendre le score du juge, Jérôme a codé le simulateur afin de pouvoir calculer un score. Cela nous a permis de mieux comprendre coment évoluait le trafic mais une stratégie d'optimisation reste difficile mise en place.
-
+Afin de mieux comprendre le score du juge, Jérôme a codé le simulateur afin de pouvoir calculer un score. Cela nous a permis de mieux comprendre comment évoluait le trafic mais une stratégie d'optimisation reste difficile mise en place.
+Le simulateur a été modifié plusieurs pour coller aux résultats donnés par le juge en ligne.
+Nous avons eu à travailler sur la gestion des traverser des intersections  des voitures. Nous avons créé la methode avance de la classe Car.
 
 Avec plus de temps nous aurions aimé utiliser la fonction score comme fonction objectif et l’utiliser pour optimiser les réglages de feux.
  
