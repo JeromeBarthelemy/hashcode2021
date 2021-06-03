@@ -1,5 +1,5 @@
 from collections import defaultdict
-from hashcode2021_simul import score
+from hashcode2021_simul_V2 import score
 
 juge=False # mettre à True pour utilisation avec le juge et à False sinon
 

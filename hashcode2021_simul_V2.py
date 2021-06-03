@@ -16,34 +16,57 @@ class Car():
         return texte
 
     def avance(self,feux,rues,cars):
-        if self.dist_feu > 0 :
+        if self.dist_feu > 0 : # si pas au feu, la voiture avance
             self.dist_feu -= 1
-            if self.dist_feu == 0 :
-                self.queue=True
-                self.queue_pos = feux[self.street_curr].queue_length + 1
-                feux[self.street_curr].queue_length += 1
-                feux[self.street_curr].queue.append(self)
-            return 'Roule'
-        if self.queue and self.queue_pos == 1 and feux[self.street_curr].green :
+            if self.dist_feu == 0 : # si elle arrive à un feu
+                if self.etape == self.path_length-1 : # si on est au bout de la dernière rue, elle est arrivée
+                    cars.remove(self)
+                    return 'Avance et arrivée'
+                else : # sinon la met en queue
+                    self.queue=True
+                    self.queue_pos = feux[self.street_curr].queue_length + 1
+                    feux[self.street_curr].queue_length += 1
+                    feux[self.street_curr].queue.append(self)
+                    if self.queue and self.queue_pos == 1 and feux[self.street_curr].green : # si elle est en queue et en 1ere position et que le feu est vert, elle passe le feu mais sans avancer
+                        feux[self.street_curr].queue.remove(self)
+                        feux[self.street_curr].queue_length -= 1
+                        self.etape+=1
+                        self.street_curr = self.path[self.etape]
+                        self.dist_feu = rues[self.street_curr][2]
+                        self.queue=False
+                        self.queue_pos = 0
+                        return 'Avance et traverse carrefour'
+            else : return 'Avance dans la rue'
+
+        if self.queue and self.queue_pos == 1 and feux[self.street_curr].green : # si elle est en queue et en 1ere position et que le feu est vert à présent, elle passe le feu et avance
             feux[self.street_curr].queue.remove(self)
             feux[self.street_curr].queue_length -= 1
             self.etape+=1
             self.street_curr = self.path[self.etape]
             self.dist_feu = rues[self.street_curr][2]-1
-            if self.dist_feu == 0 :
-                self.queue = True
-                self.queue_pos = feux[self.street_curr].queue_length + 1
-                feux[self.street_curr].queue_length += 1
-                feux[self.street_curr].queue.append(self)
-            self.queue=False
-            self.queue_pos = 0
-            if self.etape == self.path_length-1 :
-                cars.remove(self)
-                return 'Arrivée'
-            return 'Traverse'
-        if self.queue and self.queue_pos != 1 and feux[self.street_curr].green :
+            if self.dist_feu == 0 :  # si elle arrive à un feu
+                if self.etape == self.path_length-1 : # si on est au bout de la dernière rue, elle est arrivée
+                    cars.remove(self)
+                    return 'Traverse et arrivée'
+                else : # sinon la met en queue
+                    self.queue = True
+                    self.queue_pos = feux[self.street_curr].queue_length + 1
+                    feux[self.street_curr].queue_length += 1
+                    feux[self.street_curr].queue.append(self)
+                    if self.queue and self.queue_pos == 1 and feux[self.street_curr].green : # si elle est en queue et en 1ere position et que le feu est vert, elle passe le feu mais sans avancer
+                        feux[self.street_curr].queue.remove(self)
+                        feux[self.street_curr].queue_length -= 1
+                        self.etape+=1
+                        self.street_curr = self.path[self.etape]
+                        self.dist_feu = rues[self.street_curr][2]
+                        self.queue=False
+                        self.queue_pos = 0
+                        return 'Traverse, avance et traverse carrefour'
+            else : return 'Traverse et avance'                 
+        if self.queue and self.queue_pos != 1 and feux[self.street_curr].green : #le feu est vert mais il y a du monde devant, elle avance seulement dans la queue
             self.queue_pos -= 1
             return 'Avance dans la queue'
+        return 'Bloquée au feu'
 
 class Feu():
     def __init__(self, street_name,duree_green,carrefour_id,green,duration):
@@ -109,7 +132,6 @@ def score(rues,voitures,carrefours,duration,bonus,juge):
             for ligne in schedule :
                 feux[ligne[0]].duree_red = duree_red - feux[ligne[0]].duree_green
 
-
     cars=[]
     i=0
     for voiture in voitures :
@@ -132,6 +154,7 @@ def score(rues,voitures,carrefours,duration,bonus,juge):
                 print(feu)
         for car in cars :
             result=car.avance(feux,rues,cars)
+            print('Action de la voiture '+str(car.id)+' : ', result)
             if result == 'Arrivée' :
                 score += bonus + (duration - (t+1))
         for feu in feux.values() :
