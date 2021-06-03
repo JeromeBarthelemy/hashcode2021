@@ -155,7 +155,7 @@ def score(rues,voitures,carrefours,duration,bonus,juge):
         for car in cars :
             result=car.avance(feux,rues,cars)
             print('Action de la voiture '+str(car.id)+' : ', result)
-            if result == 'Arrivée' :
+            if result == 'Traverse et arrivée' or result == 'Avance et arrivée' :
                 score += bonus + (duration - (t+1))
         for feu in feux.values() :
             feu.iteration_temps()
