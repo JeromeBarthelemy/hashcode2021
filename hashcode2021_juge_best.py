@@ -1,12 +1,11 @@
 from collections import defaultdict
-from hashcode2021_simul import score
 
-juge=False # mettre à True pour utilisation avec le juge et à False sinon
+juge=True # mettre à True pour utilisation avec le juge et à False sinon
 
 #lecture des entrées
 if juge : tmp=input().split(' ')
 else :
-    fichier = open ("a.txt", "r")
+    fichier = open ("b.txt", "r")
     ligne = fichier.readline()
     tmp=ligne.split(' ')
 
@@ -99,7 +98,7 @@ class Intersection():
 
     def order(self): # pour ordonner le premier passage au vert en fonction des voitures qui attendent au départ
         if len(self.priority) != 0 : # si il y a des voitures qui démarrent à cette intersection
-            #if not(juge) : print(self.id,self.priority) # debugage
+            if not(juge) : print(self.id,self.priority) # debugage
             self.schedule=priority_sort(self.schedule,self.priority,default_priority=len(self.priority)) # on met en premier dans schedule les rues où une voiture attend pour démarrer
     
     def rue_vide(self): # pour mettre au rouge les rues où jamais aucune voiture ne passe
@@ -170,8 +169,7 @@ if not(juge) :
     for carrefour in carrefours.values() :
         if len(carrefour.schedule) != 0 :
             print('Carrefour n°', carrefour.id,' Nb rues entrantes : ',carrefour.nb_in,' Nb rues sortantes : ', carrefour.nb_out, ' Nb de rues de ce carrefour occupées au départ : ', len(carrefour.priority))
-            print(carrefour)
-    print(score(rues,voitures,carrefours,duration,bonus,juge))
+            #print(carrefour)
 # on affiche toutes nos intersections pour le juge
 else :
     print(nb_intersections)
